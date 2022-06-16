@@ -1,18 +1,37 @@
 import {useState} from "react";
-import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import {TouchableOpacity, SafeAreaView, StyleSheet, TextInput, Text} from "react-native";
+
+const sendText = async (phoneNumber) => {
+
+  // using fetch do a POST to https://dev.stedi.me/twofactorlogin/602-540-0236
+  await fetch('https://dev.stedi.me/twofactorlogin/'+phoneNumber,{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/text'
+    }
+  });
+  console.log("PhoneNumber: ", phoneNumber);
+
+};
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [oneTimePassword, setOneTimePassword] = useState(null);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.margin}>
       <TextInput
         style={styles.input}
         onChangeText={setPhoneNumber}
         value={phoneNumber}
         placeholder="881-555-1212"
       />
+      <TouchableOpacity
+      style={styles.button}
+      onPress={()=>(sendText(phoneNumber))}
+      >
+        <Text>Send Text</Text>
+      </TouchableOpacity>
       <TextInput
         style={styles.input}
         onChangeText={setOneTimePassword}
@@ -20,6 +39,12 @@ const Login = () => {
         placeholder="1234"
         keyboardType="numeric"
       />
+      <TouchableOpacity
+      style={styles.button}
+      onPress={()=>(sendText(phoneNumber))}
+      >
+        <Text>Login</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -27,10 +52,18 @@ const Login = () => {
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    margin: 12,
+    marginTop: 12,
     borderWidth: 1,
     padding: 10,
   },
+    margin:{
+      marginTop: 100
+  },
+  button: {
+    alignItems: "center",
+    backgroundcolor: "#DDDDDD",
+    padding: 10
+  }
 });
 
 export default Login;
