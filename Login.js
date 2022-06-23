@@ -4,15 +4,31 @@ import {TouchableOpacity, SafeAreaView, StyleSheet, TextInput, Text} from "react
 const sendText = async (phoneNumber) => {
 
   // using fetch do a POST to https://dev.stedi.me/twofactorlogin/602-540-0236
-  await fetch('https://dev.stedi.me/twofactorlogin/'+phoneNumber,{
+  console.log("PhoneNumber: ",phoneNumber);
+  const loginResponse = await fetch('https://dev.stedi.me/twofactorlogin/'+phoneNumber,{
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/text'
+    headers:{
+      'content-type':'application/text'
     }
   });
-  console.log("PhoneNumber: ", phoneNumber);
+  const loginResponseText = await loginResponse.text(); //converts the promise to a string by using await
+  console.log('Login Response',loginResponseText);   //print the response
+}
 
-};
+const getToken = async({phoneNumber, oneTimePassword}) =>{
+  const loginResponse=await fetch('https://dev.stedi.me/twofactorlogin',{
+    method: 'POST',
+    headers:{
+      'content-type':'application/text'
+    },
+    body:{
+      phoneNumber,
+      oneTimePassword
+    }
+  });
+  const token = await loginResponse.text();
+  console.log(token);
+}
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -41,7 +57,7 @@ const Login = () => {
       />
       <TouchableOpacity
       style={styles.button}
-      onPress={()=>(sendText(phoneNumber))}
+      onPress={()=>(getToken(phoneNumber, oneTimePassword))}
       >
         <Text>Login</Text>
       </TouchableOpacity>
