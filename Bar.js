@@ -4,10 +4,12 @@ import AppName from "./AppName";
 import Setting from "./Setting";
 
 function Bar(props) {
-    console.log('Logged In User: '+props.loggedInUser);
+    console.log('Logged In User: ', props.loggedInUser)
+    const email = props.loggedInUser
     return(
         <View style={styles.bar}>
             <AppName />
+            <Text style={styles.email}>{email}</Text>
             <Setting />  
         </View>
     )
@@ -28,4 +30,8 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         
       },
+      email:{
+        width: 90,
+        color: "#ffffff"
+      }
 })
