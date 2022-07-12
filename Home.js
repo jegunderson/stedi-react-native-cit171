@@ -8,7 +8,7 @@ const Home = (props) => {
   const [userEmail, setUserEmail] = useState("No Email")
 
   const getEmail = async (props) => {
-    const emailResponse = await fetch('httpsL://dev.stedi.me/validate/'+ props.userToken)
+    const emailResponse = await fetch('https://dev.stedi.me/validate/'+ props.userToken)
     const emailResponseText = await emailResponse.text()
     setUserEmail(emailResponseText)
   }
